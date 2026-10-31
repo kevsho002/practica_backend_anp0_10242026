@@ -94,9 +94,88 @@ class Estudiante{
         $array = array("mensaje"=>"Registros encontrados","data"=>$resultado->fetchAll());
         return $array;
     }
+
+    public function obtenerEstudiante(int $idestudiante){
+        if($idestudiante >0){
+            //EJECUTAR LA CONSULTA
+            $resultado = $this->conexion->run('SELECT * FROM estudiante WHERE id_estudiante'.$idestudiante);
+            $array = array("mensaje"=>"Registros encontados","valores"=>$resultado->fetch());
+            return $array;
+        }else{
+            $array = array("mensaje"=>"Registros no encontados","valores"=>"");
+            return $array;
+        }
+    }
+
+
+public function crearEstudiante($fechanacimiento, $idgenero, $carnet, $anioingreso){
+
+    if(!empty($fechanacimiento) && !empty($idgenero) && !empty($carnet) && !empty($anioingreso)){
+
+        // TODOS LOS CAMPOS OBLIGATORIOS HAN SIDO ENVIADOS
+
+        // CREANDO PARAMETROS DE DATOS
+        $parametros_formulario = array(
+            "fecha_nac" => $fechanacimiento,
+            "id_genero" => $idgenero,
+            "carnet" => $carnet,
+            "anio_ingreso" => $anioingreso
+        );
+
+        $resultado = $this->conexion->run(
+            'INSERT INTO estudiante(
+                fecha_nacimiento_estudiante,
+                id_genero,
+                carnet_estudiante,
+                anio_ingreso_estudiante
+            ) VALUES (
+                :fecha_nac,
+                :id_genero,
+                :carnet,
+                :anio_ingreso
+            );',
+            $parametros_formulario
+        );
+
+        if($this->conexion->n > 0 && $this->conexion->id > 0){
+
+            // SI SE HIZO INSERT
+            $resultado = $this->obtenerEstudiante($this->conexion->id);
+
+            $array = array(
+                "mensaje" => "Se ha registrado el estudiante correctamente",
+                "valores" => $resultado["valores"]
+            );
+
+            return $array;
+
+        }else{
+
+            // NO SE HIZO INSERT
+            $array = array(
+                "mensaje" => "Hubo un problema al procesar la informacion",
+                "valores" => ""
+            );
+
+            return $array;
+        }
+
+    }else{
+
+        // AL MENOS UN CAMPO NO ESTA ENVIANDOSE
+        $array = array(
+            "mensaje" => "Existen campos obligatorios que no fueron enviados",
+            "valores" => ""
+        );
+
+        return $array;
+    }
 }
+}
+/*
 $estudiante = new Estudiante();
 $datos = $estudiante->obtenerEstudiantes();
 header("content-type: Application/json");
 echo(json_encode($datos));
+*/
 ?>
