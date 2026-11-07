@@ -1,0 +1,11 @@
+RewriteEngine On
+
+RewriteCond %{REQUEST_FILENAME}% -f [OR]
+RewriteCond %{REQUEST_FILENAME}% -d
+RewriteRule ^ - [L]
+
+RewriteRule ^api/?$ index.php [QSA,L]
+RewriteRule ^api/([^/]+)/?$ index.php?t=$1 [QSA,L]
+RewriteRule ^api/([^/]+)/([^/]+)?$ index.php?t=$1&id=$2 [QSA,L]
+RewriteRule ^api/([^/]+)/([^/]+)/([^/]+)?$ index.php?t=$1&fecha_nac=$2&id_genero=$3 [QSA,L]
+RewriteRule ^api/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)?$ index.php?t=$1&fecha_nac=$2&id_genero=$3&carnet=$4&anio_ingreso=$5 [QSA,L]

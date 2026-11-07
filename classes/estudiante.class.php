@@ -98,7 +98,7 @@ class Estudiante{
     public function obtenerEstudiante(int $idestudiante){
         if($idestudiante >0){
             //EJECUTAR LA CONSULTA
-            $resultado = $this->conexion->run('SELECT * FROM estudiante WHERE id_estudiante'.$idestudiante);
+            $resultado = $this->conexion->run('SELECT * FROM estudiante WHERE id_estudiante='.$idestudiante);
             $array = array("mensaje"=>"Registros encontados","valores"=>$resultado->fetch());
             return $array;
         }else{
@@ -110,7 +110,8 @@ class Estudiante{
 
 public function crearEstudiante($fechanacimiento, $idgenero, $carnet, $anioingreso){
 
-    if(!empty($fechanacimiento) && !empty($idgenero) && !empty($carnet) && !empty($anioingreso)){
+    //if(!empty($fechanacimiento) && !empty($idgenero) && !empty($carnet) && !empty($anioingreso)){
+    if(!empty($fechanacimiento) && !empty($idgenero)){    
 
         // TODOS LOS CAMPOS OBLIGATORIOS HAN SIDO ENVIADOS
 
@@ -127,7 +128,7 @@ public function crearEstudiante($fechanacimiento, $idgenero, $carnet, $anioingre
                 fecha_nacimiento_estudiante,
                 id_genero,
                 carnet_estudiante,
-                anio_ingreso_estudiante
+                anio_ingreso_universidad
             ) VALUES (
                 :fecha_nac,
                 :id_genero,
@@ -172,10 +173,5 @@ public function crearEstudiante($fechanacimiento, $idgenero, $carnet, $anioingre
     }
 }
 }
-/*
-$estudiante = new Estudiante();
-$datos = $estudiante->obtenerEstudiantes();
-header("content-type: Application/json");
-echo(json_encode($datos));
-*/
+
 ?>
