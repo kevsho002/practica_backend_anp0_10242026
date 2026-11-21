@@ -6,7 +6,7 @@ class DB extends PDO {
     public $n = 0;
     //public function __construct($dsn=NULL, $username = NULL, $password = NULL, $options = []) {
 	public function __construct(){
-		$configuracion = new Configuracion();
+		$configuracion = new configuracion();
 		
         $default_options = [
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -32,7 +32,7 @@ class DB extends PDO {
             $this->id = intval($this->lastInsertId());
             $this->n = intval($stmt->rowCount());
             $this->commit();
-            $stmt->fetchAll(PDO::FETCH_ASSOC);
+            //$stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch(\PDOException $e) {
             $this->rollback();
             echo($e->getMessage());
